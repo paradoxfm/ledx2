@@ -1,0 +1,17 @@
+﻿<Image x:Class="LEDX.Components.CustomImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:fx="clr-namespace:LEDX.Components.Effects">
+	<Image.Effect>
+		<fx:LigthImitationEffect x:Name="effLigthing" ColorTone="White" />
+	</Image.Effect>
+	<Image.Triggers>
+		<EventTrigger RoutedEvent="Image.Drop">
+			<BeginStoryboard>
+				<Storyboard Name="sBrd" RepeatBehavior="Forever">
+					<ColorAnimationUsingKeyFrames Name="clAni" Storyboard.TargetName="effLigthing" Storyboard.TargetProperty="ColorTone" />
+				</Storyboard>
+			</BeginStoryboard>
+		</EventTrigger>
+	</Image.Triggers>
+</Image>

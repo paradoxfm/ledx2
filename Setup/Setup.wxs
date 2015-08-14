@@ -1,0 +1,60 @@
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<?include Var.wxi ?>
+	
+	<Product Id="$(var.ProductId)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
+	         UpgradeCode="$(var.UpgradeCode)" Manufacturer="$(var.Manufacturer)" Codepage="1251">
+		<Package Description="Установщик LEDX Editor 2" InstallerVersion="200" Compressed="yes"
+		         Comments="Данная программа содержит файлы LEDX Editor 2" />
+		<!-- Source media for the installation.
+ 			Specifies a single cab file to be embedded in the installer's .msi. -->
+		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="medium"/>
+		
+		<!-- Installation directory and files are defined in Files.wxs -->
+		<Directory Id="TARGETDIR" Name="SourceDir"/>
+		
+		<Feature Id="Complete" Title="Файлы программы" Description="Установить программные файлы $(var.ProductName)." Level="1" Absent="disallow" AllowAdvertise="no">
+			<ComponentRef Id="Program"/>
+			
+			<Feature Id="Shortcuts" Title="Ярлыки в меню" Description="Установить ярлыки в меню и на рабочий стол." Level="1">
+				<ComponentRef Id="ApplicationShortcuts" />
+				<ComponentRef Id="NewComponent" />
+			</Feature>
+			
+			<Feature Id="Tmpl" Title="Шаблоны" Description="Установить примеры и шаблоны переходов." Level="2">
+				<ComponentRef Id="TampleSys"/>
+			</Feature>
+			
+			<Feature Id="Helps" Title="Справка" Description="Установить файлы справки." Level="2">
+				<ComponentRef Id="HelpSys"/>
+				<ComponentRef Id="ManualShortcuts"/>
+				<ComponentRef Id="TutorComp"/>
+			</Feature>
+		</Feature>
+		
+		<Feature Id="Asociat" Title="Ассоциации" Description="Назначить $(var.ProductName) программой по умолчанию для файлов ledx." Level="1">
+			<ComponentRef Id="Asociations"/>
+		</Feature>
+		
+		<Condition Message="Для установки требуется Windows XP SP3 или выше.">
+			<![CDATA[VersionNT >= 501]]>
+		</Condition>
+		
+		<Condition Message="Для этой программы необходим .NET Framework версии 4.0 или выше.">
+			<![CDATA[MsiNetAssemblySupport >= "4.0"]]>
+		</Condition>
+		
+		<!-- Using the Wix UI library
+			WixUI_InstallDir does not allow the user to choose 
+			features but adds a dialog to let the user choose a 
+			directory where the product will be installed -->
+		<Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
+		<WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="license.rtf"/>
+		
+		<WixVariable Id="WixUIDialogBmp" Value="DialogBmp.jpg" />
+		<WixVariable Id="WixUIBannerBmp" Value="BannerBmp.jpg" />
+		
+		<UIRef Id="WixUI_Mondo"/>
+	</Product>
+</Wix>

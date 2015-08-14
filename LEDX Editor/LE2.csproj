@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E2FF33C6-D082-4B57-ABCD-F2C6278CF6E7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LEDX</RootNamespace>
+    <AssemblyName>LE2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\paradoxfm\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>LEDX.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <StartAction>Project</StartAction>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>PdbOnly</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <StartAction>Project</StartAction>
+    <StartArguments>C:\Firmware.ledx</StartArguments>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>Full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fluent, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-client\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Commands\Cmd.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\DataResource.cs" />
+    <Compile Include="Components\UIController.xaml.cs">
+      <DependentUpon>UIController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\UITrack.xaml.cs">
+      <DependentUpon>UITrack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\UIFrame.xaml.cs">
+      <DependentUpon>UIFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ActivatePanelColor.cs" />
+    <Compile Include="Converters\ActivatePanelFrame.cs" />
+    <Compile Include="Converters\BoolToBool.cs" />
+    <Compile Include="Converters\BoolToVisible.cs" />
+    <Compile Include="Converters\ChildCount.cs" />
+    <Compile Include="Converters\ColorModels.cs" />
+    <Compile Include="Converters\InverseBool.cs" />
+    <Compile Include="Converters\NotNull.cs" />
+    <Compile Include="Converters\SelectController.cs" />
+    <Compile Include="Converters\SelectTrack.cs" />
+    <Compile Include="Converters\SelectTrack2.cs" />
+    <Compile Include="Converters\WidtToLength.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\NotifyAppender.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ClipboardUtil.cs" />
+    <Compile Include="Utils\ColorUtil.cs" />
+    <Compile Include="Utils\EditUtil.cs" />
+    <Compile Include="Utils\FlashUtil.cs" />
+    <Compile Include="Utils\Flash\Enums.cs" />
+    <Compile Include="Utils\Flash\Util.cs" />
+    <Compile Include="Utils\Selectors.cs" />
+    <Compile Include="Utils\FileOperations.cs" />
+    <Compile Include="Utils\PlayerUtil.cs" />
+    <Page Include="Components\UIController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\UITrack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\UIFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Images\Shutdown_32.png" />
+    <Resource Include="Images\Themes\blacktheme.png" />
+    <Resource Include="Images\Themes\bluetheme.png" />
+    <Resource Include="Images\Themes\silvertheme.png" />
+    <Resource Include="Images\Check_32.png" />
+    <Resource Include="Images\Draw\Select_32.png" />
+    <Resource Include="Images\Import\Video_32.png" />
+    <Resource Include="Images\DragLeft_16.png" />
+    <Resource Include="Images\DragRigth_16.png" />
+    <Resource Include="Images\Text_32.png" />
+    <Resource Include="Images\Draw\LayerDw_32.png" />
+    <Resource Include="Images\Draw\LayerUp_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\flush_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Draw\Circle_32.png" />
+    <Resource Include="Images\Draw\Eraser_32.png" />
+    <Resource Include="Images\Draw\line_32.png" />
+    <Resource Include="Images\Draw\Pencil_32.png" />
+    <Resource Include="Images\Draw\Square_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Import\Picture_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Import\Png_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Operat\Copy_32.png" />
+    <Resource Include="Images\Operat\Paste_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Operat\arrow-down-left.png" />
+    <Resource Include="Images\Operat\arrow-down-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Undo_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contradd_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="file.ico" />
+    <Resource Include="Images\Log_16.png" />
+    <None Include="Help\1 Original.jpg" />
+    <None Include="Help\2 Light Area.png" />
+    <None Include="Help\3 Light Map.png" />
+    <None Include="Help\user manual.odt" />
+    <Content Include="Help\user manual.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\UnCheck_32.png" />
+    <Resource Include="Images\FrameSets_32.png" />
+    <Resource Include="Images\colors_16.png" />
+    <Resource Include="Images\delete_16.png" />
+    <Resource Include="Images\Exit_16.png" />
+    <Resource Include="Images\folder_16.png" />
+    <Resource Include="Images\new_16.png" />
+    <Resource Include="Images\right_16.png" />
+    <Resource Include="Images\Save_16.png" />
+    <Resource Include="Images\Refresh_16.png" />
+    <Resource Include="Images\Redo_16.png" />
+    <Resource Include="Images\Themes\Round_16.png" />
+    <Resource Include="Images\Themes\Split_16.png" />
+    <Resource Include="Images\Operat\Cut_16.png" />
+    <Resource Include="Images\Operat\exchange_16.png" />
+    <Resource Include="Images\Import\Convert_32.png" />
+    <Resource Include="Images\Operat\Align_32.png" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Tamplates\7b19bc79-ff7e-4aaf-a0cb-2c69771d674f.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\254d1995-cdf7-47e5-86d2-3dfb070b7be2.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\361d96d6-3804-4323-b190-6e2fb1226341.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\5d661e77-f884-4315-a0da-0dc14c0e6586.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\7da1e286-d7a1-4980-9a99-73c48777d4b0.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\d5ac3605-2ab9-41bb-9c8b-daabf2872e78.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tamplates\e212fe34-d9f2-4efb-b828-6f4130ef1e89.ledt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="install_spl.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Components\LEDX.Components.csproj">
+      <Project>{D3D92B3E-9229-4372-8C42-A961FFFB0748}</Project>
+      <Name>LEDX.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\LEDX.Model.csproj">
+      <Project>{70795388-E40D-4236-B278-8EB72A81B9C7}</Project>
+      <Name>LEDX.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

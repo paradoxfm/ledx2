@@ -1,0 +1,622 @@
+﻿<fl:RibbonWindow x:Class="LEDX.MWin"
+				 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				 xmlns:sysCollection="clr-namespace:System.Collections;assembly=mscorlib"
+				 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+				 xmlns:fl="clr-namespace:Fluent;assembly=Fluent"
+				 xmlns:my="clr-namespace:LEDX.Components"
+				 xmlns:imp="clr-namespace:LEDX.Components;assembly=Components"
+				 xmlns:c="clr-namespace:LEDX.Commands"
+				 xmlns:props="clr-namespace:LEDX.Properties"
+				 xmlns:util="clr-namespace:LEDX.Utils"
+				 xmlns:log="clr-namespace:LEDX.Logging"
+				 xmlns:conv="clr-namespace:LEDX.Converters"
+				 x:Name="fmMain" Title="LEDX редактор 2" Icon="icon.ico" Height="750" Width="1000" WindowStartupLocation="CenterScreen">
+	<Window.Resources>
+		<conv:ActivatePanelFrame x:Key="actFrameCon" />
+		<conv:ActivatePanelColor x:Key="actColorCon" />
+		<conv:ChildCount x:Key="actCldCnt" />
+		<conv:NotNull x:Key="actNull" />
+		<conv:BoolToVisible x:Key="actBolToV" />
+		<conv:ColorModels x:Key="cnColMod" />
+		<conv:BoolToBool x:Key="cnBToB" />
+		
+		<log:NotifyAppender x:Key="Log" />
+		
+		<CollectionViewSource x:Key="familyCollection" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}" />
+		<CollectionViewSource x:Key="contrCollection" Source="{Binding ElementName=fmMain, Path=Doc.Controller}" />
+	</Window.Resources>
+	
+	<Window.InputBindings>
+		<KeyBinding Command="c:Cmd.ErrorCommand" Gesture="Ctrl+Shift+Alt+E" />
+		<!-- system commands -->
+		<KeyBinding Command="c:Cmd.ExitCommand" Gesture="Alt+X" />
+		<KeyBinding Command="c:Cmd.NewCommand" Gesture="Ctrl+N" />
+		<KeyBinding Command="c:Cmd.OpenCommand" Gesture="Ctrl+O" />
+		<KeyBinding Command="c:Cmd.SaveCommand" Gesture="Ctrl+S" />
+		<KeyBinding Command="c:Cmd.SaveAsCommand" Gesture="Ctrl+Shift+S" />
+		<KeyBinding Command="c:Cmd.UndoCommand" Gesture="Ctrl+Z" />
+		<KeyBinding Command="c:Cmd.RedoCommand" Gesture="Ctrl+Y" />
+		<KeyBinding Command="c:Cmd.HelpCommand" Gesture="F1" />
+		<!-- commands buffer -->
+		<KeyBinding Command="c:Cmd.CopyFrame" Gesture="Ctrl+C" />
+		<KeyBinding Command="c:Cmd.CutFrame" Gesture="Ctrl+X" />
+		<KeyBinding Command="c:Cmd.CopyColor" Gesture="Ctrl+Shift+C" />
+		<KeyBinding Command="c:Cmd.PasteObject" Gesture="Ctrl+V" />
+		<KeyBinding Command="c:Cmd.PasteBefore" Gesture="Ctrl+Shift+V" />
+		<!-- commands edit -->
+		<KeyBinding Command="c:Cmd.AddFrame" Gesture="Alt+F" />
+		<KeyBinding Command="c:Cmd.AddContr" Gesture="Alt+C" />
+		<KeyBinding Command="c:Cmd.DelFrame" Gesture="Del" />
+		<KeyBinding Command="c:Cmd.DelContr" Gesture="Shift+Del" />
+		<KeyBinding Command="c:Cmd.DefScale" Gesture="Ctrl+0" />
+		<KeyBinding Command="c:Cmd.AddSample" Gesture="Alt+Shift+S" />
+	</Window.InputBindings>
+	
+	<DockPanel LastChildFill="True">
+		<fl:Ribbon Name="ribbon" DockPanel.Dock="Top" SelectedTabChanged="Ribbon_SelectedTabChanged">
+
+			<fl:Ribbon.Menu>
+				<fl:Backstage Header="Меню" Background="#3071da">
+					<fl:BackstageTabControl>
+						<!--<Fl:BackstageTabItem Header="Последние" />-->
+						<fl:Button Name="btNewProj" ToolTip="Новый документ Ctrl + N" Header="Новый" Command="c:Cmd.NewCommand"
+								   Icon="Images\new_16.png" />
+						<fl:Button Name="btOpenProj" ToolTip="Открыть файл прошивки Ctrl + O" Header="Открыть..." Command="c:Cmd.OpenCommand"
+								   Icon="Images\folder_16.png" />
+						<fl:Button Name="btSaveProj" ToolTip="Сохранить документ Ctrl + S" Header="Сохранить..." Command="c:Cmd.SaveCommand"
+								   Icon="Images\Save_16.png" />
+						<fl:Button Header="Сохранить как..." ToolTip="Сохранить документ как копию Ctrl + Shift + S" Command="c:Cmd.SaveAsCommand"
+								   Icon="Images\Save_16.png" />
+						<fl:Button Header="Выход" ToolTip="Закрыть программу Alt + X" Command="c:Cmd.ExitCommand" Icon="Images\Exit_16.png" />
+					</fl:BackstageTabControl>
+				</fl:Backstage>
+			</fl:Ribbon.Menu>
+
+			<fl:Ribbon.ToolBarItems>
+                <fl:DropDownButton Icon="/Fluent;Component/Themes/Office2010/images/morecolors.png" fl:RibbonAttachedProperties.RibbonSizeDefinition="Small"
+					ToolTip="Изменение цветовой темы программы">
+					<MenuItem Header="Синий" Command="c:Cmd.SetTheme" CommandParameter="Blue" Icon="Images\Themes\bluetheme.png" />
+					<MenuItem Header="Серебряный" Command="c:Cmd.SetTheme" CommandParameter="Silver" Icon="Images\Themes\silvertheme.png" />
+					<MenuItem Header="Черный" Command="c:Cmd.SetTheme" CommandParameter="Black" Icon="Images\Themes\blacktheme.png" />
+				</fl:DropDownButton>
+                <fl:Button Command="c:Cmd.HelpCommand" ToolTip="Справка F1" fl:RibbonAttachedProperties.RibbonSizeDefinition="Small"
+						   Icon="/Fluent;Component/Themes/Office2010/images/helpsmall.png" />
+			</fl:Ribbon.ToolBarItems>
+			
+			<fl:Ribbon.QuickAccessItems>
+				<fl:QuickAccessMenuItem Target="{Binding ElementName=btOpenProj}" IsChecked="True" />
+				<fl:QuickAccessMenuItem Target="{Binding ElementName=btSaveProj}" IsChecked="True"/>
+			</fl:Ribbon.QuickAccessItems>
+
+			<fl:RibbonTabItem Header="Редактирование" Name="tbEdit">
+				<fl:RibbonGroupBox Header="Правка">
+					<fl:SplitButton Name="btUndo" Header="Отмена" Command="c:Cmd.UndoCommand" ToolTip="Отмена последнего действия Ctrl + Z" LargeIcon="Images\Undo_32.png">
+						<fl:MenuItem Header="Повтор" Command="c:Cmd.RedoCommand" ToolTip="Вернуть последнее отмененное действие" Icon="Images\Redo_16.png" />
+					</fl:SplitButton>
+                    <fl:SplitButton Name="btPasteFram" Command="c:Cmd.PasteObject" Header="Вставить" ToolTip="Вставка Ctrl + V" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+                                    LargeIcon="Images\Operat\Paste_32.png">
+						<fl:MenuItem Header="Вставить слева" Command="c:Cmd.PasteBefore" ToolTip="Вставить перед выделенным фреймом" Icon="Images\Operat\arrow-down-left.png" />
+					</fl:SplitButton>
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Name="rgbContrProp" Header="Контроллер" DataContext="{Binding ElementName=fmMain, Path=ActCont}">
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="spAddNew" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+
+                        <fl:SplitButton x:Name="spAddNew" Command="c:Cmd.AddContr" Header="Новый" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+										ToolTip="Добавить новый контроллер Alt + C" Icon="Images\contradd_32.png">
+							<fl:SplitButton.LargeIcon>
+								<Image Source="Images\contradd_32.png" />
+							</fl:SplitButton.LargeIcon>
+							<fl:MenuItem x:Name="btDel" Header="Удалить" Icon="Images\delete_16.png" Command="c:Cmd.DelContr"
+										 IsEnabled="{Binding ElementName=fmMain, Path=ActCont, Converter={StaticResource actNull}}"
+										 ToolTip="Удалить выбраный контроллер Shift + Del"  />
+						</fl:SplitButton>
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar IsEnabled="{Binding ElementName=fmMain, Path=ActCont, Converter={StaticResource actNull}}">
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="tbConName" Width="200" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="tbConNumb" Width="90" fl:RibbonAttachedProperties.RibbonSize="Large" />
+                                    <fl:RibbonToolBarControlDefinition Target="tbConButt"  Width="110" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:TextBox Name="tbConName" Header="Текст" Text="{Binding Title, Mode=TwoWay}" />
+						<fl:Spinner Name="tbConNumb" Header="Номер" FontStretch="Normal" Format="F0" Increment="1" Maximum="50" Minimum="1"
+									Value="{Binding Number, Mode=TwoWay}" />
+						<fl:Spinner Name="tbConButt" Header="Программа" FontStretch="Normal" Format="F0" Increment="1" Maximum="5" Minimum="1"
+									Value="{Binding Button, Mode=TwoWay}" />
+					</fl:RibbonToolBar>
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Name="rgbFrameProp" Header="Фрейм">
+					<fl:RibbonToolBar
+						IsEnabled="{Binding ElementName=fmMain, Path=ActFrm.Count, Converter={StaticResource actFrameCon}}">
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="spTime" fl:RibbonAttachedProperties.RibbonSize="Large" Width="115" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btCopyFram" fl:RibbonAttachedProperties.RibbonSize="Small"/>
+                                    <fl:RibbonToolBarControlDefinition Target="btCutFram" fl:RibbonAttachedProperties.RibbonSize="Small"/>
+                                    <fl:RibbonToolBarControlDefinition Target="btDelFram" fl:RibbonAttachedProperties.RibbonSize="Small" />
+                                    <fl:RibbonToolBarControlDefinition Target="btToSample" fl:RibbonAttachedProperties.RibbonSize="Small" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						
+						<fl:Spinner x:Name="spTime" Header="Время" Minimum=".05" Maximum="6500" FontStretch="Normal" Format="F2" Increment="1.0"
+									Value="{Binding Length, Mode=TwoWay}" />
+						<fl:Button x:Name="btCopyFram" Command="c:Cmd.CopyFrame" ToolTip="Копировать фрейм Ctrl + C" Icon="Images\Operat\Copy_32.png" />
+						<fl:Button x:Name="btCutFram" Command="c:Cmd.CutFrame" ToolTip="Вырезать фрейм Ctrl + X" Icon="Images\Operat\Cut_16.png" />
+						<fl:Button x:Name="btDelFram" Command="c:Cmd.DelFrame" Margin="15,0,15,0" ToolTip="Удалить фрейм Del" Icon="Images\delete_16.png" />
+						<fl:Button x:Name="btToSample" Command="c:Cmd.AddSample" CommandParameter="False"
+								   ToolTip="Добавить в шаблоны Alt+Shift+S" Icon="Images\colors_16.png" />
+					
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="spbtFSet" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:SplitButton Header="Вид" Name="spbtFSet" DropDownClosed="SpbtFSet_DropDownClosed">
+							<StackPanel Orientation="Vertical">
+								<StackPanel Orientation="Horizontal">
+                                    <fl:ToggleButton Header="Разделители" Icon="Images\Themes\Split_16.png" fl:RibbonAttachedProperties.RibbonSizeDefinition="Middle"
+													 IsChecked="{Binding Source={x:Static props:Settings.Default}, Path=Split, Mode=TwoWay, Converter={StaticResource cnBToB}}" />
+                                    <fl:ToggleButton Header="Сглаживание" Icon="Images\Themes\Round_16.png" fl:RibbonAttachedProperties.RibbonSizeDefinition="Middle"
+													 IsChecked="{Binding Source={x:Static props:Settings.Default}, Path=Round, Mode=TwoWay, Converter={StaticResource cnBToB}}" />
+								</StackPanel>
+								<imp:ColorCanvas Margin="0,0,0,-117"
+												 SelectedColor="{Binding Source={x:Static props:Settings.Default}, Path=BordColor, Mode=TwoWay, Converter={StaticResource cnColMod}}" />
+							</StackPanel>
+							<fl:SplitButton.LargeIcon>
+								<Image Source="Images\FrameSets_32.png" Width="32" Height="32" />
+							</fl:SplitButton.LargeIcon>
+						</fl:SplitButton>
+					</fl:RibbonToolBar>
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Name="rgbColorProp" Header="Настройки цвета"
+					IsEnabled="{Binding ElementName=fmMain, Path=ActFrm.Count, Converter={StaticResource actColorCon}}">
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btBegColor" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:Button x:Name="btBegColor" Header="Начало" Command="c:Cmd.SetColorBeg" ToolTip="Задать начальный цвет фрейма">
+							<fl:Button.LargeIcon>
+								<Rectangle x:Name="rctBegClolor" Width="32" Height="32" RadiusX="3" RadiusY="3" Stroke="White" StrokeThickness="2">
+									<Rectangle.Fill>
+										<SolidColorBrush Color="{Binding BegColor}" />
+									</Rectangle.Fill>
+								</Rectangle>
+							</fl:Button.LargeIcon>
+						</fl:Button>
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btCopyColor" fl:RibbonAttachedProperties.RibbonSize="Small" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btGetColor" fl:RibbonAttachedProperties.RibbonSize="Small" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						
+						<fl:Button  x:Name="btCopyColor" Command="c:Cmd.SetSolidColor" Icon="Images\right_16.png"
+								   ToolTip="Установить конечный цвет фрейма равный начальному (Ctrl наоборот)" />
+						<fl:Button x:Name="btGetColor" Command="c:Cmd.SetLrColor" ToolTip="Взять цвета соседей" Icon="Images\Operat\exchange_16.png" />
+					
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btEndColor" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:Button x:Name="btEndColor" Header="Конец" Command="c:Cmd.SetColorEnd" ToolTip="Задать конечный цвет фрейма">
+							<fl:Button.LargeIcon>
+								<Rectangle x:Name="rctEndClolor" Width="32" Height="32" RadiusX="3" RadiusY="3" Stroke="White" StrokeThickness="2">
+									<Rectangle.Fill>
+										<SolidColorBrush Color="{Binding EndColor}" />
+									</Rectangle.Fill>
+								</Rectangle>
+							</fl:Button.LargeIcon>
+						</fl:Button>
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btCopy" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						
+						<fl:Button x:Name="btCopy" Header="Копия" Command="c:Cmd.CopyColor" ToolTip="Копировать цветовую схему Ctrl + Shift + C">
+							<fl:Button.LargeIcon>
+								<Image Width="32" Height="32" Source="Images\Operat\Copy_32.png" />
+							</fl:Button.LargeIcon>
+						</fl:Button>
+					</fl:RibbonToolBar>
+				
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Header="Шаблоны" IsEnabled="{Binding ElementName=fmMain, Path=ActCont, Converter={StaticResource actNull}}">
+					<fl:InRibbonGallery x:Name="grSampl" MinItemsInRow="4" MaxItemsInRow="4" Width="250" ItemWidth="58" ItemHeight="58" ResizeMode="Both" Icon="Images\colors_16.png">
+						<fl:InRibbonGallery.ItemTemplate>
+							<DataTemplate>
+								<Border Background="{Binding IconLarge}" BorderThickness="2" BorderBrush="#3071da" CornerRadius="5">
+									<TextBlock x:Name="StopText" Text="{Binding Frames.Count}" FontSize="18" VerticalAlignment="Stretch"
+											   HorizontalAlignment="Stretch" FontFamily="Tahoma" Padding="35,27" FontWeight="Bold" Foreground="White" />
+									<Border.ContextMenu>
+										<ContextMenu>
+											<ContextMenu.ItemsSource>
+												<CompositeCollection>
+													<MenuItem Header="Удалить" Command="c:Cmd.DelSample" Icon="Images\delete_16.png" />
+												</CompositeCollection>
+											</ContextMenu.ItemsSource>
+										</ContextMenu>
+									</Border.ContextMenu>
+									<Border.InputBindings>
+										<MouseBinding Gesture="LeftDoubleClick" Command="c:Cmd.InsertSample" />
+									</Border.InputBindings>
+								</Border>
+							</DataTemplate>
+						</fl:InRibbonGallery.ItemTemplate>
+					</fl:InRibbonGallery>
+				</fl:RibbonGroupBox>
+			</fl:RibbonTabItem>
+			
+			<fl:RibbonTabItem Header="Предпросмотр" Name="tbPalyer"
+				Visibility="{Binding ElementName=icContr, Path=ActualHeight, Converter={StaticResource actCldCnt}}">
+				<fl:RibbonGroupBox Header="Вставить">
+                    <fl:Button Header="Фон" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" Command="c:Cmd.OpenBackground" LargeIcon="Images\Import\Picture_32.png"
+							   ToolTip="Фон нужен для установки области экспорта (для выделения фона нажать Ctrl + LMB)" />
+                    <fl:Button Header="PNG альфа канал" Command="c:Cmd.OpenLigth" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" LargeIcon="Images\Import\Png_32.png" />
+                    <fl:Button Header="Конвертер" Command="c:Cmd.ConvertLigth" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" LargeIcon="Images\Import\Convert_32.png"
+							   ToolTip="Создать из изображения карту освещенности"
+							   Visibility="{Binding Source={x:Static props:Settings.Default}, Path=Develop, Converter={StaticResource actBolToV}}" />
+                    <fl:Button Header="Текст" Command="c:Cmd.InsertLabel" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" LargeIcon="Images\Text_32.png"
+							   Visibility="{Binding Source={x:Static props:Settings.Default}, Path=TestMode, Converter={StaticResource actBolToV}}" />
+				</fl:RibbonGroupBox>
+				<fl:RibbonGroupBox Header="Экспорт" IsEnabled="{Binding ElementName=iCanv, Path=IsBackLoaded}">
+                    <fl:Button Header="PNG" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" Command="c:Cmd.ExportToPng" LargeIcon="Images\Import\Png_32.png" />
+                    <fl:Button Header="Видео" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" Command="c:Cmd.ExportToAvi" LargeIcon="Images\Import\Video_32.png" />
+				</fl:RibbonGroupBox>
+				<fl:RibbonGroupBox Header="Инструменты рисования"
+					Visibility="{Binding Source={x:Static props:Settings.Default}, Path=TestMode, Converter={StaticResource actBolToV}}">
+                    <fl:Button Command="c:Cmd.EditMode" CommandParameter="1" Header="Круг" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+							   LargeIcon="Images\Draw\Circle_32.png" />
+                    <fl:Button Command="c:Cmd.EditMode" CommandParameter="2" Header="Квадрат" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+							   LargeIcon="Images\Draw\Square_32.png" />
+                    <fl:ToggleButton GroupName="canvas" Command="c:Cmd.EditMode" CommandParameter="3" Header="Линия" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+									 LargeIcon="Images\Draw\line_32.png" />
+                    <fl:ToggleButton GroupName="canvas" Command="c:Cmd.EditMode" CommandParameter="4" Header="Кривая" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+									 LargeIcon="Images\Draw\Pencil_32.png" />
+                    <fl:ToggleButton GroupName="canvas" Command="c:Cmd.EditMode" CommandParameter="5" Header="Выбрать" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+									 LargeIcon="Images\Draw\Select_32.png" IsChecked="True"  />
+                    <fl:ToggleButton GroupName="canvas" Command="c:Cmd.EditMode" CommandParameter="6" Header="Стереть" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+									 LargeIcon="Images\Draw\Eraser_32.png" />
+				</fl:RibbonGroupBox>
+				<!--<Fl:RibbonGroupBox Header="Свечение" Visibility="Collapsed">
+					<Fl:Spinner x:Name="spOpacity" Header="Прозрачность" Minimum="0" Maximum="1" FontStretch="Normal" Format="F1" Increment=".1"
+											ValueChanged="spOpacity_ValueChanged"/>
+					<Fl:Spinner x:Name="spPover" Header="Радиус" Minimum="0" Maximum="1000" FontStretch="Normal" Format="F1" Increment="1"
+											ValueChanged="spPover_ValueChanged"/>
+				</Fl:RibbonGroupBox>-->
+				
+				<fl:RibbonGroupBox Name="rgbPropLayer" Header="Слой" Visibility="Collapsed">
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="btLayerTop" fl:RibbonAttachedProperties.RibbonSize="Large" />
+                                    <fl:RibbonToolBarControlDefinition Target="btLayerDown" fl:RibbonAttachedProperties.RibbonSize="Large" />
+                                    <fl:RibbonToolBarControlDefinition Target="btDelLay" fl:RibbonAttachedProperties.RibbonSize="Large" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:Button x:Name="btLayerDown" Command="c:Cmd.LayerDown" Header="Ниже" LargeIcon="Images\Draw\LayerDw_32.png" />
+						<fl:Button x:Name="btLayerTop" Command="c:Cmd.LayerUp" Header="Выше">
+							<fl:Button.LargeIcon>
+								<Image Source="Images\Draw\LayerUp_32.png" Width="32" Height="32" />
+							</fl:Button.LargeIcon>
+						</fl:Button>
+						<fl:Button Name="btDelLay" Header="Удалить" Command="c:Cmd.LayerDelete" LargeIcon="Images\delete_16.png" />
+					</fl:RibbonToolBar>
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Name="rgbPropPng" Header="Свойства" Visibility="Collapsed">
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="cbController" fl:RibbonAttachedProperties.RibbonSize="Large" Width="170" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="lgWidth" fl:RibbonAttachedProperties.RibbonSize="Large" Width="100" />
+                                    <fl:RibbonToolBarControlDefinition Target="lgHeight" fl:RibbonAttachedProperties.RibbonSize="Large" Width="60" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:ComboBox x:Name="cbController" Header="Контроллер" SelectedItem="{Binding Contr, Mode=TwoWay}"
+									 IsEditable="False" ItemsSource="{Binding Source={StaticResource contrCollection}}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<TextBlock>
+										<TextBlock.Text>
+											<MultiBinding StringFormat=" {0}: {1},{2}">
+												<Binding Path="Title" />
+												<Binding Path="Number" />
+												<Binding Path="Button" />
+											</MultiBinding>
+										</TextBlock.Text>
+									</TextBlock>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</fl:ComboBox>
+						
+						<fl:TextBox Name="lgWidth" Header="Размеры: " Text="{Binding Width, StringFormat=F0}" />
+						<fl:TextBox Name="lgHeight" Header=" x " Text="{Binding Height, StringFormat=F0}" />
+					</fl:RibbonToolBar>
+				</fl:RibbonGroupBox>
+				
+				<fl:RibbonGroupBox Name="rgbPropText" Header="Свойства" Visibility="Collapsed">
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+									<fl:RibbonToolBarControlDefinition Target="lbtemTest" />
+                                    <fl:RibbonToolBarControlDefinition Target="temTest" fl:RibbonAttachedProperties.RibbonSize="Large" Width="40" />
+                                    <fl:RibbonToolBarControlDefinition Target="spTextSize" fl:RibbonAttachedProperties.RibbonSize="Large" Width="100" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="cbFontFamaly" fl:RibbonAttachedProperties.RibbonSize="Large" Width="170" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<Label x:Name="lbtemTest" Content="Текст" />
+						<imp:MultiLineTextEditor x:Name="temTest" Text="{Binding Text, Mode=TwoWay}" />
+						<fl:Spinner x:Name="spTextSize" Header="Размер" Minimum="10" Maximum="50" FontStretch="Normal" Format="F0" Increment="1"
+									Value="{Binding FontSize, Mode=TwoWay}"/>
+                        <fl:ComboBox x:Name="cbFontFamaly" IsEditable="False" Header="Шрифт" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large"
+									 ItemsSource="{Binding Source={StaticResource familyCollection}}"
+									 SelectedItem="{Binding FontFamily, Mode=TwoWay}">
+							<fl:ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Source}" FontFamily="{Binding Source}" FontSize="14" />
+								</DataTemplate>
+							</fl:ComboBox.ItemTemplate>
+						</fl:ComboBox>
+					</fl:RibbonToolBar>
+					<fl:SplitButton Header="Цвет" ToolTip="Задать цвет текста">
+						<imp:ColorCanvas SelectedColor="{Binding Foreground.Color}" Margin="0,0,0,-117" />
+						<fl:SplitButton.LargeIcon>
+							<Rectangle x:Name="rctTextClolor" Width="32" Height="32" RadiusX="3" RadiusY="3" Stroke="White" StrokeThickness="2">
+								<Rectangle.Fill>
+									<SolidColorBrush Color="{Binding Foreground.Color}" />
+								</Rectangle.Fill>
+							</Rectangle>
+						</fl:SplitButton.LargeIcon>
+					</fl:SplitButton>
+				</fl:RibbonGroupBox>
+			
+			</fl:RibbonTabItem>
+			
+			<fl:RibbonTabItem Header="Прошивка" Name="tbFlash"
+				Visibility="{Binding ElementName=icContr, Path=ActualHeight, Converter={StaticResource actCldCnt}}">
+				<fl:RibbonGroupBox Header="Настройки" DataContext="{Binding ElementName=fmMain, Path=Doc.Flash}">
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+									<fl:RibbonToolBarControlDefinition Target="lbPort" Width="60" />
+									<fl:RibbonToolBarControlDefinition Target="cbComName" Width="70" />
+                                    <fl:RibbonToolBarControlDefinition Target="btRefrPorts" fl:RibbonAttachedProperties.RibbonSize="Small" />
+								</fl:RibbonToolBarRow>
+								<fl:RibbonToolBarRow>
+									<fl:RibbonToolBarControlDefinition Target="lbSpeed" Width="60" />
+									<fl:RibbonToolBarControlDefinition Target="cbComRate" Width="90" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						
+						<Label x:Name="lbPort" Content="Порт:" />
+						<fl:ComboBox x:Name="cbComName" IsEditable="False" SelectedValue="{Binding Port, Mode=OneWayToSource}">
+							<fl:ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding}" />
+								</DataTemplate>
+							</fl:ComboBox.ItemTemplate>
+						</fl:ComboBox>
+						<Label x:Name="lbSpeed" Content="Скорость:" />
+						<fl:ComboBox x:Name="cbComRate" IsEditable="False" SelectedIndex="0"
+									 SelectedValue="{Binding Speed, Mode=TwoWay}">
+							<sys:Int32>115200</sys:Int32>
+							<sys:Int32>9600</sys:Int32>
+							<sys:Int32>4800</sys:Int32>
+						</fl:ComboBox>
+						<fl:Button x:Name="btRefrPorts" Command="c:Cmd.RefreshController" ToolTip="Обновить список контроллеров"
+								   Icon="Images\Refresh_16.png" />
+					</fl:RibbonToolBar>
+					
+					<fl:RibbonToolBar>
+						<fl:RibbonToolBar.LayoutDefinitions>
+							<fl:RibbonToolBarLayoutDefinition>
+								<fl:RibbonToolBarRow>
+                                    <fl:RibbonToolBarControlDefinition Target="tbSync" fl:RibbonAttachedProperties.RibbonSize="Large" Width="50" />
+								</fl:RibbonToolBarRow>
+							</fl:RibbonToolBarLayoutDefinition>
+						</fl:RibbonToolBar.LayoutDefinitions>
+						<fl:ToggleButton Name="tbSync" Header="Синхронизация" IsChecked="{Binding IsSync, Mode=TwoWay}">
+							<fl:ToggleButton.LargeIcon>
+								<Image Width="32" Height="32" Source="Images\Operat\Align_32.png" />
+							</fl:ToggleButton.LargeIcon>
+						</fl:ToggleButton>
+					</fl:RibbonToolBar>
+				
+				</fl:RibbonGroupBox>
+				<fl:RibbonGroupBox Header="Контроллеры">
+                    <fl:Button Header="Прошить" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" Command="c:Cmd.FlashController" Icon="Images\flush_32.png"
+							   ToolTip="Запустить прошивку выбраных контроллеров" LargeIcon="Images\flush_32.png"
+							   IsEnabled="{Binding ElementName=cbComName, Path=SelectedItem, Converter={StaticResource actNull}}" />
+                    <fl:Button Header="Вкл/Выкл" fl:RibbonAttachedProperties.RibbonSizeDefinition="Large" Command="c:Cmd.PowerController" ToolTip="Включить первый контроллер"
+							   LargeIcon="Images\Shutdown_32.png" Icon="Images\Shutdown_32.png" />
+				</fl:RibbonGroupBox>
+			</fl:RibbonTabItem>
+			
+			<!--Backstage-->
+		</fl:Ribbon>
+		
+		<fl:StatusBar DockPanel.Dock="Bottom" Height="25">
+			<fl:StatusBarItem HorizontalAlignment="Left">
+                <fl:ToggleButton x:Name="tgbShowLog" fl:RibbonAttachedProperties.RibbonSizeDefinition="Small" Icon="Images\Log_16.png" ToolTip="Показать лог"
+								 IsChecked="{Binding Source={x:Static props:Settings.Default}, Path=ShowLog}" />
+			</fl:StatusBarItem>
+			
+			<fl:StatusBarItem HorizontalAlignment="Left">
+				<TextBlock DataContext="{Binding ElementName=fmMain, Path=ActCont}" Padding="0,3,0,0">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="Название `{0}`, номер {1}, кнопка {2}, длина {3:F2}, фреймов {4}">
+							<Binding Path="Title" FallbackValue="" />
+							<Binding Path="Number" FallbackValue="" />
+							<Binding Path="Button" FallbackValue="" />
+							<Binding Path="Length" FallbackValue="" />
+							<Binding Path="Frames.Count" FallbackValue="" />
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+			</fl:StatusBarItem>
+			
+			<fl:StatusBarItem HorizontalAlignment="Left">
+				<StackPanel x:Name="spProgress" Orientation="Horizontal" Visibility="Collapsed">
+					<Label Content="Выполнение операции: " />
+					<ProgressBar Width="120" IsIndeterminate="True" />
+				</StackPanel>
+			</fl:StatusBarItem>
+			<fl:StatusBarItem HorizontalAlignment="Right">
+				<Slider x:Name="uiScaleSlider" Width="150" Style="{StaticResource ZoomSliderStyle}" Minimum="0.1" Maximum="2.0"
+						AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" LargeChange="0.2" SmallChange="0.1" Value="1"
+						ValueChanged="uiScaleSlider_ValueChanged" />
+			</fl:StatusBarItem>
+		</fl:StatusBar>
+		
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			
+			<Border Grid.Row="0" CornerRadius="3" BorderBrush="#66D6E2F8" BorderThickness="2">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"  />
+						<ColumnDefinition Width="1" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<imp:PlayScale x:Name="uiMan" Grid.Column="0" Grid.Row="0" Margin="0,0,0,1"
+								   IsPlay="{Binding Source={x:Static util:PlayerUtil.I}, Path=IsPlay, Mode=TwoWay}"
+								   Scale="{Binding ElementName=uiScaleSlider, Path=Value, Mode=TwoWay}"
+								   Visibility="{Binding ElementName=tbFlash, Path=IsSelected, ConverterParameter=False, Converter={StaticResource actBolToV}}"/>
+					<Grid Grid.Column="1" Grid.Row="0" Background="Black" />
+					<ScrollViewer x:Name="svSearch" Grid.Column="2" Grid.Row="0" HorizontalScrollBarVisibility="Hidden"
+								  VerticalScrollBarVisibility="Disabled" Background="#FFC4C4C4" Margin="0,0,0,1">
+						<imp:TimeSlider x:Name="sldTime" Minimum="0" Maximum="1" SmallChange="0.02" TickFrequency="0.01" Width="0"
+										Value="0" HorizontalAlignment="Left" ValueChanged="sld_ValueChanged"
+										Visibility="{Binding ElementName=tbFlash, Path=IsSelected, ConverterParameter=False, Converter={StaticResource actBolToV}}" />
+						<!-- так будет правильнее Value="{Binding Source={x:Static util:PlayerUtil.I}, Path=PlayTime, Mode=TwoWay}"
+								 чтоб не плодить евенты  -->
+					</ScrollViewer>
+					<ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Name="scroll" VerticalScrollBarVisibility="Auto"
+								  HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="220"  />
+								<ColumnDefinition Width="1" />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+							
+							<ItemsControl Grid.Column="0" x:Name="icContr" ItemsSource="{Binding ElementName=fmMain, Path=Doc.Controller}"
+										  VerticalAlignment="Top">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<my:UiController DataContext="{Binding}" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							
+							<Grid Grid.Column="1" Background="Black" />
+							<ScrollViewer x:Name="svTracks" Grid.Column="2" HorizontalScrollBarVisibility="Hidden"
+										  VerticalScrollBarVisibility="Disabled">
+								<Grid>
+									<ItemsControl Grid.Column="0" x:Name="icTrack" HorizontalAlignment="Stretch" Width="Auto"
+												  ItemsSource="{Binding ElementName=fmMain, Path=Doc.Controller}"
+												  Visibility="{Binding ElementName=tbPalyer, Path=IsSelected, ConverterParameter=False, Converter={StaticResource actBolToV}}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<my:UiTrack DataContext="{Binding}" />
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+									
+									<imp:IncRender x:Name="iCanv" SelectionChanged="iCanv_SelectionChanged" Visibility="{Binding ElementName=tbPalyer, Path=IsSelected, Converter={StaticResource actBolToV}}" />
+								</Grid>
+							</ScrollViewer>
+						
+						</Grid>
+					</ScrollViewer>
+					<Grid Grid.Column="0" Grid.Row="2" />
+					<Grid Grid.Column="1" Grid.Row="2" />
+					<ScrollViewer Grid.Column="2" Grid.Row="2" x:Name="mainScroller" HorizontalScrollBarVisibility="Auto"
+								  VerticalScrollBarVisibility="Disabled" ScrollChanged="mainScroller_ScrollChanged">
+						<Grid Width="{Binding ElementName=icTrack, Path=ActualWidth}" />
+					</ScrollViewer>
+				
+				</Grid>
+			</Border>
+			<Border Grid.Row="1" CornerRadius="3" BorderBrush="#66D6E2F8" BorderThickness="2" Height="80"
+					Visibility="{Binding ElementName=tgbShowLog, Path=IsChecked, Converter={StaticResource actBolToV}}">
+				<ScrollViewer Name="svLog" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+					<TextBox Name="tbLog" DataContext="{StaticResource Log}" Text="{Binding Appender.Notification, Mode=Default}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" />
+				</ScrollViewer>
+			</Border>
+		</Grid>
+	</DockPanel>
+
+</fl:RibbonWindow>

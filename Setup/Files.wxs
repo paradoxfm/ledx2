@@ -1,0 +1,75 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Var.wxi?>
+	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="Vendor" Name="$(var.Manufacturer)">
+					<Directory Id="INSTALLDIR" Name="$(var.ProductName)">
+						<Component Id="Program" Guid="2696DD9A-4C42-456F-A893-C68E79AC23BE" DiskId="1">
+							<File Id="Components.dll" Name="Components.dll" Source="..\LEDX Editor\bin\Release\Components.dll" />
+							<File Id="Fluent.dll" Name="Fluent.dll" Source="..\LEDX Editor\bin\Release\Fluent.dll" />
+							<File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="..\LEDX Editor\bin\Release\Ionic.Zip.Reduced.dll" />
+							<File Id="LEDX_Editor.exe" Name="LE2.exe" Source="..\LEDX Editor\bin\Release\LE2.exe" DiskId="1" KeyPath="yes" />
+							<File Id="LEDX_Editor.exe.config" Name="LE2.exe.config" Source="..\LEDX Editor\bin\Release\LE2.exe.config" />
+							<File Id="Models.dll" Name="Models.dll" Source="..\LEDX Editor\bin\Release\Models.dll" />
+							<File Id="log4net.dll" Name="log4net.dll" Source="..\LEDX Editor\bin\Release\log4net.dll" />
+						</Component>
+						<Directory Id="HelpDir" Name="Help">
+							<Component Id="HelpSys" Guid="C50FAF00-0294-4F8F-B970-14C016DD1F94" DiskId="1">
+								<File Id="Index.htm" Name="user manual.pdf" Source="..\LEDX Editor\Help\user manual.pdf" />
+							</Component>
+						</Directory>
+						<Directory Id="TamplateDir" Name="Tamplates">
+							<Component Id="TampleSys" Guid="1EF3F69E-89C1-4136-A387-0119BBD19BD0" DiskId="1">
+								<File Id="_b19bc79_ff7e_4aaf_a0cb_2c69771d674f.ledt" Name="7b19bc79-ff7e-4aaf-a0cb-2c69771d674f.ledt" Source="..\LEDX Editor\Tamplates\7b19bc79-ff7e-4aaf-a0cb-2c69771d674f.ledt" />
+								<File Id="e212fe34_d9f2_4efb_b828_6f4130ef1e89.ledt" Name="e212fe34-d9f2-4efb-b828-6f4130ef1e89.ledt" Source="..\LEDX Editor\Tamplates\e212fe34-d9f2-4efb-b828-6f4130ef1e89.ledt" />
+								<File Id="_d661e77_f884_4315_a0da_0dc14c0e6586.ledt" Name="5d661e77-f884-4315-a0da-0dc14c0e6586.ledt" Source="..\LEDX Editor\Tamplates\5d661e77-f884-4315-a0da-0dc14c0e6586.ledt" />
+								<File Id="_da1e286_d7a1_4980_9a99_73c48777d4b0.ledt" Name="7da1e286-d7a1-4980-9a99-73c48777d4b0.ledt" Source="..\LEDX Editor\Tamplates\7da1e286-d7a1-4980-9a99-73c48777d4b0.ledt" />
+								<File Id="_54d1995_cdf7_47e5_86d2_3dfb070b7be2.ledt" Name="254d1995-cdf7-47e5-86d2-3dfb070b7be2.ledt" Source="..\LEDX Editor\Tamplates\254d1995-cdf7-47e5-86d2-3dfb070b7be2.ledt" />
+								<File Id="_61d96d6_3804_4323_b190_6e2fb1226341.ledt" Name="361d96d6-3804-4323-b190-6e2fb1226341.ledt" Source="..\LEDX Editor\Tamplates\361d96d6-3804-4323-b190-6e2fb1226341.ledt" />
+								<File Id="d5ac3605_2ab9_41bb_9c8b_daabf2872e78.ledt" Name="d5ac3605-2ab9-41bb-9c8b-daabf2872e78.ledt" Source="..\LEDX Editor\Tamplates\d5ac3605-2ab9-41bb-9c8b-daabf2872e78.ledt" />
+							</Component>
+						</Directory>
+						<Component Id="NewComponent" Guid="42484B48-512E-4B11-BFD0-89A493869ACD">
+							<Shortcut Id="Shortcut" Name="LEDX Editor 2" Directory="DesktopFolder" Target="[INSTALLDIR]LE2.exe" WorkingDirectory="INSTALLDIR" />
+							<RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+						</Component>
+						<Component Id="Asociations" Guid="E92908C6-FB1F-436E-9D69-2B454033A5AF" DiskId="1">
+							<File Id="file.ico" Name="file.ico" Source="..\LEDX Editor\file.ico" />
+							<ProgId Id="myApp.exe" Description="Файл прошивки LEDX" Icon="file.ico" Advertise="no">
+								<Extension Id="ledx" ContentType="application/zip" Advertise="no">
+									<Verb Id="open" Command="Open" Target="[INSTALLDIR]LE2.exe" Argument="%1" />
+								</Extension>
+							</ProgId>
+						</Component>
+						<Directory Id="TutID" Name="Tutorial">
+							<Component Id="TutorComp" Guid="79CAD53E-1657-4782-80FE-DC22A51A3343" DiskId="1">
+								<File Id="Help.__Original.jpg" Name="1 Original.jpg" Source="..\LEDX Editor\Help\1 Original.jpg" />
+								<File Id="Help.__Light_Area.png" Name="2 Light Area.png" Source="..\LEDX Editor\Help\2 Light Area.png" />
+								<File Id="Help.__Light_Map.png" Name="3 Light Map.png" Source="..\LEDX Editor\Help\3 Light Map.png" />
+							</Component>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="Manuf" Name="$(var.Manufacturer)">
+					<Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)">
+						<Component Id="ApplicationShortcuts" Guid="C9694D7B-5EE1-4516-A1DF-486478875F1C">
+							<Shortcut Id="ShortcutApp" Name="LEDX Editor 2" Description="$(var.ProductName)" Target="[INSTALLDIR]LE2.exe" WorkingDirectory="INSTALLDIR" />
+							<Shortcut Id="UninstallProduct" Name="Uninstall" Description="Uninstalls $(var.ProductName)" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
+							<RemoveFolder Id="RemDir1" Directory="Manuf" On="uninstall" />
+							<RemoveFolder Id="RemDir2" Directory="ApplicationProgramsFolder" On="uninstall" />
+							<RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+						</Component>
+						<Component Id="ManualShortcuts" Guid="890F7A22-5E56-447F-B97D-FD7FDC9EB88D">
+							<Shortcut Id="ShortcutMan" Name="Руководство пользователя" Target="[INSTALLDIR]Help\user manual.pdf" />
+							<RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+						</Component>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop" />
+		</DirectoryRef>
+	</Fragment>
+</Wix>

@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<ResourceDictionary.MergedDictionaries>
+		
+<!--		<ResourceDictionary Source="/Components;component/Themes/Generic/Brushes.xaml" />-->
+<!--		<ResourceDictionary Source="/Components;component/Themes/Generic/HuluStyle.xaml" />-->
+		<ResourceDictionary Source="/Components;component/Components/TimeSlider/Themes/Generic.xaml" />
+		<ResourceDictionary Source="/Components;component/Components/PlayScale/Themes/Generic.xaml" />
+<!--		<ResourceDictionary Source="/Components;component/Components/Chromes/Themes/Generic.xaml" />-->
+		<ResourceDictionary Source="/Components;component/Components/ColorCanvas/Themes/Generic.xaml" />
+		<ResourceDictionary Source="/Components;component/Components/MultiLineTextEditor/Themes/Generic.xaml" />
+	
+	</ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,5 @@
+C:\projects\c#\ledx2\Models\bin\Debug\Models.dll
+C:\projects\c#\ledx2\Models\bin\Debug\Models.pdb
+C:\projects\c#\ledx2\Models\obj\Debug\LEDX.Model.csprojResolveAssemblyReference.cache
+C:\projects\c#\ledx2\Models\obj\Debug\Models.dll
+C:\projects\c#\ledx2\Models\obj\Debug\Models.pdb

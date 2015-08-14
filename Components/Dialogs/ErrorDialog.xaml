@@ -1,0 +1,22 @@
+﻿<Fl:RibbonWindow x:Class="LEDX.Dialogs.ErrorDialog"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:Fl="clr-namespace:Fluent;assembly=Fluent"
+                 Height="350" Width="500" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" GlassBorderThickness="5,25,5,5"
+                 ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Title="Внутренняя ошибка">
+	<Grid Margin="0,30,0,0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Label Grid.Row="0" Content="Вознило внутреннее исключение:" />
+		<ScrollViewer Grid.Row="1" Name="svLog" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="5,0">
+			<TextBox Name="tbErr" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" />
+		</ScrollViewer>
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="Копировать и отправить" Width="150" Margin="5,5" Click="Button_Click" />
+			<Button Content="Закрыть" Width="80" Margin="5,5" Click="Button_Click_1" />
+		</StackPanel>
+	</Grid>
+</Fl:RibbonWindow>

@@ -1,0 +1,46 @@
+﻿<ItemsControl x:Class="LEDX.Components.UiTrack"
+						xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+						xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+						xmlns:loc="clr-namespace:LEDX.Converters"
+						xmlns:c="clr-namespace:LEDX.Commands"
+						xmlns:my="clr-namespace:LEDX.Components"
+						Width="Auto" Height="40" Margin="0,0,0,1" ItemsSource="{Binding Frames}" HorizontalAlignment="Stretch"
+						PreviewMouseDown="spTrack_PreviewMouseDown">
+	<ItemsControl.Resources>
+		<loc:InverseBool x:Key="conInvBl" />
+		<loc:SelectController x:Key="selConverter" />
+	</ItemsControl.Resources>
+
+	<ItemsControl.Background>
+		<LinearGradientBrush StartPoint=".5,1" EndPoint=".5,0" >
+			<GradientStop Offset="0" Color="{Binding IsSelected, Converter={StaticResource selConverter}}" />
+			<GradientStop Offset="1" Color="Gray"/>
+		</LinearGradientBrush>
+	</ItemsControl.Background>
+
+	<ItemsControl.ContextMenu>
+		<ContextMenu>
+			<ContextMenu.ItemsSource>
+				<CompositeCollection>
+					<MenuItem Header="Сохранить контроллер как шаблон" Command="c:Cmd.AddSample" CommandParameter="True"
+					          Icon="/Images/colors_16.png" />
+					<Separator />
+					<MenuItem Header="Удалить" Command="c:Cmd.DelContr" Icon="/Images/delete_16.png" />
+				</CompositeCollection>
+			</ContextMenu.ItemsSource>
+		</ContextMenu>
+	</ItemsControl.ContextMenu>
+
+	<ItemsControl.ItemTemplate>
+		<DataTemplate>
+			<my:UiFrame DataContext="{Binding}" />
+		</DataTemplate>
+	</ItemsControl.ItemTemplate>
+
+	<ItemsControl.ItemsPanel>
+		<ItemsPanelTemplate>
+			<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Loaded="ItemsControl_Loaded"
+			            SizeChanged="spFrames_SizeChanged" />
+		</ItemsPanelTemplate>
+	</ItemsControl.ItemsPanel>
+</ItemsControl>

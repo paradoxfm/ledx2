@@ -1,0 +1,17 @@
+﻿<StackPanel x:Class="LEDX.Components.UIManager"
+						xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+						xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+						x:Name="cMan"
+						Width="220" Height="40" Orientation="Horizontal" VerticalAlignment="Center">
+	<ToggleButton x:Name="btPlay" Width="40" Height="Auto" Style="{StaticResource PlayButton}"  ToolTip="Воспроизведение/остановка"
+								IsChecked="{Binding ElementName=cMan, Path=IsPlay, Mode=TwoWay}" />
+	<Grid Width="180" Background="{DynamicResource HuluBack}">
+
+		<TextBlock Text="{Binding ElementName=sldrSize, Path=Value, StringFormat=X {0:F2}}" VerticalAlignment="Center"
+							 HorizontalAlignment="Center" FontSize="15" />
+
+		<Slider Name="sldrSize" Style="{StaticResource HuluSlider}" Minimum="0.1" Maximum="2.0" AutoToolTipPlacement="TopLeft"
+						AutoToolTipPrecision="1" LargeChange="0.2" SmallChange="0.1" Value="{Binding ElementName=cMan, Path=SizeValue, Mode=TwoWay}"
+						ToolTip="Масштаб фреймов (Ctrl+0 исходный 1:1)" />
+	</Grid>
+</StackPanel>

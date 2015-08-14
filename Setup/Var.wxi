@@ -1,0 +1,8 @@
+﻿<?xml version="1.0"?>
+<Include>
+	<?define ProductName="LEDX Editor 2" ?>
+	<?define ProductVersion="1.0.0.0" ?>
+	<?define ProductId="3472131A-4C24-42DC-89DC-8F2BE65456A7"?>
+	<?define UpgradeCode="465CCC7E-CF4B-4713-9F7E-E3092B1C44FB"?>
+	<?define Manufacturer="LEDX"?>
+</Include>

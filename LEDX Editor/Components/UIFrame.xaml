@@ -1,0 +1,82 @@
+﻿<Grid x:Class="LEDX.Components.UiFrame"
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			xmlns:conv="clr-namespace:LEDX.Converters"
+			xmlns:c="clr-namespace:LEDX.Commands"
+			Height="40" Name="uiFrame"
+			AllowDrop="True" DragOver="grFrame_DragOver" Drop="grFrame_Drop" DragLeave="grFrame_DragLeave"
+			PreviewMouseMove="grFrame_PreviewMouseMove" PreviewMouseDown="grFrame_PreviewMouseButtonDown"
+			Loaded="uiFrame_Loaded">
+	<Grid.Resources>
+		<conv:SelectTrack x:Key="selConverter1" />
+		<conv:SelectTrack2 x:Key="selConverter2" />
+		<conv:WidtToLength x:Key="wtlConv" />
+		<c:DataResource x:Key="param" BindingTarget="{Binding ElementName=uiFrame, Path=DataContext}"/>
+		<c:DataResource x:Key="param2" BindingTarget="{Binding ElementName=uiFrame}"/>
+	</Grid.Resources>
+
+	<Grid.InputBindings>
+		<MouseBinding Gesture="Ctrl+LeftClick" Command="c:Cmd.SelectManyFrame">
+			<MouseBinding.CommandParameter>
+				<c:DataResourceBinding DataResource="{StaticResource param}"/>
+			</MouseBinding.CommandParameter>
+		</MouseBinding>
+
+		<MouseBinding Gesture="Shift+LeftClick" Command="c:Cmd.SelectShiftFrame">
+			<MouseBinding.CommandParameter>
+				<c:DataResourceBinding DataResource="{StaticResource param}"/>
+			</MouseBinding.CommandParameter>
+		</MouseBinding>
+
+		<MouseBinding Gesture="LeftDoubleClick" Command="c:Cmd.DoubleClickFrame">
+			<MouseBinding.CommandParameter>
+				<c:DataResourceBinding DataResource="{StaticResource param2}"/>
+			</MouseBinding.CommandParameter>
+		</MouseBinding>
+	</Grid.InputBindings>
+
+	<Grid.ContextMenu>
+		<ContextMenu>
+			<ContextMenu.ItemsSource>
+				<CompositeCollection>
+					<MenuItem Header="Копировать" Command="c:Cmd.CopyFrame" Icon="/Images/Operat/Copy_32.png" />
+					<MenuItem Header="Вырезать" Command="c:Cmd.CutFrame" Icon="/Images/Operat/Cut_16.png" />
+					<MenuItem Header="Вставить слева" Command="c:Cmd.PasteBefore" Icon="/Images/Operat/arrow-down-left.png" />
+					<MenuItem Header="Вставить справа" Command="c:Cmd.PasteObject" Icon="/Images/Operat/arrow-down-right.png" />
+					<Separator />
+					<MenuItem Header="Сохранить фреймы как шаблон" Command="c:Cmd.AddSample" CommandParameter="False" Icon="/Images/colors_16.png" />
+					<Separator />
+					<MenuItem Header="Удалить" Command="c:Cmd.DelFrame" Icon="/Images/delete_16.png" />
+				</CompositeCollection>
+			</ContextMenu.ItemsSource>
+		</ContextMenu>
+	</Grid.ContextMenu>
+
+	<Grid Name="grFrame" Width="{Binding Length, Converter={StaticResource wtlConv}, Mode=TwoWay}">
+		<Rectangle Name="recBord" StrokeThickness="1">
+			<Rectangle.Fill>
+				<LinearGradientBrush StartPoint=".5,1" EndPoint=".5,0">
+					<GradientStop Offset="0" Color="{Binding IsSelected, Converter={StaticResource selConverter1}}" />
+					<GradientStop Offset="1" Color="{Binding IsSelected, Converter={StaticResource selConverter2}}" />
+				</LinearGradientBrush>
+			</Rectangle.Fill>
+		</Rectangle>
+
+		<Rectangle Name="recFill" Height="25">
+			<Rectangle.Fill>
+				<LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+					<GradientStop Offset="1" Color="{Binding BegColor}" />
+					<GradientStop Offset="0" Color="{Binding EndColor}" />
+				</LinearGradientBrush>
+			</Rectangle.Fill>
+		</Rectangle>
+
+		<Thumb Name="tmbSize" Width="3" HorizontalAlignment="Right" Cursor="SizeWE" DragCompleted="Thumb_DragCompleted"
+				 DragDelta="Thumb_DragDelta_MiddleRight" DragStarted="tmbSize_DragStarted" Opacity="0" />
+		<Image Name="imDropLeft" Source="/Images/DragLeft_16.png" Width="16" Height="16"
+				 HorizontalAlignment="Left" Visibility="Collapsed" />
+		<Image Name="imDropRigth" Source="/Images/DragRigth_16.png" Width="16" Height="16"
+				 HorizontalAlignment="Right" Visibility="Collapsed" />
+	</Grid>
+</Grid>
